@@ -1,4 +1,6 @@
 import * as types from './action-types';
+import axios from 'axios'
+
 
 // ❗ You don't need to add extra action creators to achieve MVP
 export function moveClockwise() {
@@ -13,7 +15,12 @@ export function moveCounterClockwise() {
   }
 }
 
-export function selectAnswer() { }
+export function selectAnswer(id) { 
+  return { 
+    type: types.SET_SELECTED_ANSWER,
+    payload: id,
+  }
+}
 
 export function setMessage() { }
 
@@ -24,13 +31,34 @@ export function inputChange() { }
 export function resetForm() { }
 
 // ❗ Async action creators
-export function fetchQuiz() {
-  return function (dispatch) {
-    // First, dispatch an action to reset the quiz state (so the "Loading next quiz..." message can display)
-    // On successful GET:
-    // - Dispatch an action to send the obtained quiz to its state
-  }
+export const fetchQuiz = () => dispatch => {
+  // First, dispatch an action to reset the quiz state
+
+  // (so the "Loading next quiz..." message can display)
+  // On successful GET:
+  // - Dispatch an action to send the obtained quiz to its state
+  axios.get('http://localhost:9000/api/quiz/next')
+    .then(res => {
+      // console.log(res.data);
+      dispatch({ type: types.SET_QUIZ_INTO_STATE, payload: res.data })
+    })
+    .catch(err => {
+      console.log(err);
+    })
+
 }
+
+// export const fetchTodosFromApi = () => dispatch => {
+//   axios.get('http://localhost:9000/api/todos')
+//     .then(res => {
+//       const allTodosFromAPI = res.data.data
+//       dispatch({ type: types.POPULATE_ALL_TODOS, payload: allTodosFromAPI })
+//     })
+//     .catch(err => {
+//       debugger
+//     })
+// }
+
 export function postAnswer() {
   return function (dispatch) {
     // On successful POST:
