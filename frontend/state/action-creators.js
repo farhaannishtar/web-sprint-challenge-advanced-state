@@ -48,30 +48,29 @@ export const fetchQuiz = () => dispatch => {
 
 }
 
-// export const fetchTodosFromApi = () => dispatch => {
-//   axios.get('http://localhost:9000/api/todos')
-//     .then(res => {
-//       const allTodosFromAPI = res.data.data
-//       dispatch({ type: types.POPULATE_ALL_TODOS, payload: allTodosFromAPI })
-//     })
-//     .catch(err => {
-//       debugger
-//     })
-// }
+export const postAnswer = (quiz, selectedAnswer) => dispatch => {
+  // On successful POST:
+  // - Dispatch an action to reset the selected answer state
+  // - Dispatch an action to set the server message to state
+  // - Dispatch the fetching of the next quiz
+  dispatch(selectAnswer(selectAnswer));
+  axios.post('http://localhost:9000/api/quiz/answer', {"quiz_id": quiz.quiz_id, "answer_id": selectedAnswer})
+    .then(res => {
+      console.log(res.data.message);
+      dispatch({ type: types.SET_INFO_MESSAGE, payload: res.data.message })
+      dispatch(fetchQuiz())
+    })
+    .catch(err => {
+      console.log(err);
+    })
 
-export function postAnswer() {
-  return function (dispatch) {
-    // On successful POST:
-    // - Dispatch an action to reset the selected answer state
-    // - Dispatch an action to set the server message to state
-    // - Dispatch the fetching of the next quiz
-  }
 }
 export function postQuiz() {
   return function (dispatch) {
-    // On successful POST:
-    // - Dispatch the correct message to the the appropriate state
-    // - Dispatch the resetting of the form
+  // On successful POST:
+  // - Dispatch the correct message to the the appropriate state
+  // - Dispatch the resetting of the form
   }
 }
-// ❗ On promise rejections, use log statements or breakpoints, and put an appropriate error message in state
+// ❗ On promise rejections, use log statements or breakpoints, 
+// and put an appropriate error message in state

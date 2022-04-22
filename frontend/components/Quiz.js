@@ -10,6 +10,7 @@ export function Quiz(props) {
     initialMessageState,
     fetchQuiz,
     selectAnswer,
+    postAnswer
   } = props;
  
   useEffect(() => {
@@ -20,7 +21,14 @@ export function Quiz(props) {
     selectAnswer(id)
   }
 
+  const submitTheAnswer = () => {
+    console.log("baby steps");
+    postAnswer(quiz, selectedAnswer);
+  }
+
   console.log(quiz);
+
+
   return (
     <div id="wrapper">
       {
@@ -45,7 +53,7 @@ export function Quiz(props) {
               </div>
             </div>
 
-            <button id="submitAnswerBtn" disabled={selectedAnswer === null}>Submit answer</button>
+            <button id="submitAnswerBtn" disabled={selectedAnswer === null} onClick={() => submitTheAnswer(quiz, selectAnswer)}>Submit answer</button>
           </>
         ) : 'Loading next quiz...'
       }
@@ -57,7 +65,7 @@ const mapStateToProps = state => {
   return {
     quiz: state.quiz,
     selectedAnswer: state.selectedAnswer,
-    initialMessageState: state.initialMessageState,
+    infoMessage: state.infoMessage,
   }
 }
 
