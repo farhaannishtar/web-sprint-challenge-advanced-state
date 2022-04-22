@@ -84,3 +84,6 @@ In order to complete this project, you must fix the following modules:
 ## Stretch Goals
 
 - Without breaking any tests, see to randomizing the order in which answers appear.
+
+
+I CAN DO THIS!
