@@ -33,7 +33,11 @@ export function inputChange({name, value}) {
   }
 }
 
-export function resetForm() { }
+export function resetForm() {
+  return {
+    type: types.RESET_FORM,
+  }
+}
 
 // ❗ Async action creators
 export const fetchQuiz = () => dispatch => {
@@ -70,12 +74,19 @@ export const postAnswer = (quiz, selectedAnswer) => dispatch => {
     })
 
 }
-export function postQuiz() {
-  return function (dispatch) {
+export const postQuiz = (question_text, true_answer_text, false_answer_text) => dispatch => {
   // On successful POST:
   // - Dispatch the correct message to the the appropriate state
   // - Dispatch the resetting of the form
-  }
+  axios.post('http://localhost:9000/api/quiz/new', {question_text, true_answer_text, false_answer_text})
+    .then(res => {
+      console.log(res);
+      dispatch({type: types.SET_INFO_MESSAGE, payload: `Congrats: "${question_text}" is a great question!`})
+      dispatch(resetForm());
+    })
+    .catch(err => {
+      console.log(err);
+    })
 }
 // ❗ On promise rejections, use log statements or breakpoints, 
 // and put an appropriate error message in state

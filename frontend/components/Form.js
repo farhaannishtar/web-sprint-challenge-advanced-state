@@ -7,17 +7,18 @@ export function Form(props) {
   const {
     form,
     infoMessage,
-    inputChange
+    inputChange,
+    postQuiz
   } = props;
 
   const onChange = evt => {
-    console.log("baby steps");
     const { name, value } = evt.target
     inputChange({ name, value })
   }
 
   const onSubmit = evt => {
-
+    evt.preventDefault();
+    postQuiz(form.newQuestion, form.newTrueAnswer, form.newFalseAnswer);
   }
 
   return (
